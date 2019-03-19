@@ -1,3 +1,4 @@
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -39,7 +40,8 @@ public class RegistrationTest {
     @Test()
     public void test()
     {
-        mDriver.get("https://google.com");
+        mDriver.get("http://automationpractice.com/index.php?controller=authentication");
+        ((JavascriptExecutor) mDriver).executeScript("var fn = $.ajax; var activeRequests = 0; $.ajax = function(o) { activeRequests++; console.log(\"ajax\"); return fn(o).done(function() { activeRequests--; }); };");
         System.out.println(mDriver.getTitle());
         Assert.assertEquals("1", "1");
     }
