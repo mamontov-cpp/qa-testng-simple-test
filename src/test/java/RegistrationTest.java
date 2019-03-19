@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 
@@ -15,23 +16,15 @@ import java.util.Properties;
  *  A basic test for registration page
  */
 @Test()
-public class RegistrationTest {
+public class RegistrationTest extends PageTest {
 
     /**
-     * Sets up test
-     * @throws Exception on error
+     * Setups basic test properties
+     *
+     * @throws Exception exception in case of error
      */
-    @BeforeClass
-    public void setUp() throws Exception {
-        FileInputStream fis = new FileInputStream("drivers.properties");
-        Properties props = new Properties();
-        props.load(fis);
-        fis.close();
+    public RegistrationTest() throws IOException {
 
-        System.setProperty("webdriver.gecko.driver", props.getProperty("webdriver.gecko.driver"));
-        System.setProperty("webdriver.chrome.driver", props.getProperty("webdriver.chrome.driver"));
-
-        mDriver = new ChromeDriver();
     }
 
     /**
@@ -40,24 +33,12 @@ public class RegistrationTest {
     @Test()
     public void test()
     {
-        mDriver.get("http://automationpractice.com/index.php?controller=authentication");
-        ((JavascriptExecutor) mDriver).executeScript("var fn = $.ajax; var activeRequests = 0; $.ajax = function(o) { activeRequests++; console.log(\"ajax\"); return fn(o).done(function() { activeRequests--; }); };");
-        System.out.println(mDriver.getTitle());
+        Page page = Page.makePageWithDriver(WebDriverType.CHROME);
+        page.navigate("http://automationpractice.com/index.php?controller=authentication");
+        System.out.println(page.getTitle());
+        page.finish();
         Assert.assertEquals("1", "1");
     }
 
-
-    /**
-     * Tear downs a test
-     */
-    @AfterClass
-    public void tearDown() {
-        mDriver.quit();
-    }
-
-    /**
-     * A driver for running page
-     */
-    private WebDriver mDriver;
 
 }
