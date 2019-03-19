@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="RegistrationTest" verbose="1" >
+    <test name="RegistrationTest" >
+        <classes>
+            <class name="RegistrationTest">
+                <methods>
+                    <include name="test" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
