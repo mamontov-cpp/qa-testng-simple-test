@@ -1,4 +1,5 @@
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -19,7 +20,8 @@ public class RegistrationTest {
     @BeforeClass
     public void setUp() throws Exception {
         System.setProperty("webdriver.gecko.driver", "D:\\saddy\\geckodriver.exe");
-        mDriver = new FirefoxDriver();
+        System.setProperty("webdriver.chrome.driver", "D:\\saddy\\chromedriver.exe");
+        mDriver = new ChromeDriver();
     }
 
     /**
