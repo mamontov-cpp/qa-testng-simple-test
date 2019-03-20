@@ -5,6 +5,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.rmi.CORBA.Util;
@@ -20,6 +21,16 @@ import java.util.Properties;
 public class RegistrationTest extends PageTest {
 
     /**
+     * Returns list of drivers to test with
+     * @return Object[][] list of drivers for registration
+     */
+    @DataProvider(name = "drivers")
+    public static Object[][]  drivers()
+    {
+        return new Object[][]{ {WebDriverType.CHROME}, {WebDriverType.FIREFOX}};
+    }
+
+    /**
      * Setups basic test properties
      *
      * @throws Exception exception in case of error
@@ -32,10 +43,10 @@ public class RegistrationTest extends PageTest {
      * Tests case "1. Registation form should not accept empty required fields"
      * see https://docs.google.com/spreadsheets/d/1IVFe6YQjt-EqlOz0cQtIywSuMyhNGb6HUAyz4dpvw58/edit#gid=0 for details
      */
-    @Test()
-    public void testRegistrationFormShouldNotAcceptEmptyRequiredFields()
+    @Test(dataProvider =  "drivers")
+    public void testRegistrationFormShouldNotAcceptEmptyRequiredFields(WebDriverType type)
     {
-        Page page = Page.makePageWithDriver(WebDriverType.CHROME);
+        Page page = Page.makePageWithDriver(type);
         // 1. Go to page http://automationpractice.com/index.php?controller=authentication
         page.navigate("http://automationpractice.com/index.php?controller=authentication");
         // 2. Inside "Create an account" form  in field "Email  address"
@@ -58,7 +69,10 @@ public class RegistrationTest extends PageTest {
         boolean isErrorsBlockPresent = page.isElementPresent(".alert.alert-danger");
         page.finish();
         // 1. The form must reload page and be on same page
-        Assert.assertEquals(pageUrl, "http://automationpractice.com/index.php?controller=authentication");
+        // The second condition is added due to FF behaviour
+        Assert.assertTrue(pageUrl.equals("http://automationpractice.com/index.php?controller=authentication")
+        || pageUrl.equals("http://automationpractice.com/index.php?controller=authentication#account-creation")
+        );
         // 2. Page must contain red block with classes "alert alert-danger", that describes errors
         Assert.assertTrue(isErrorsBlockPresent);
     }
@@ -67,10 +81,10 @@ public class RegistrationTest extends PageTest {
      * Tests case "2. Registration form should accept filled form"
      * see https://docs.google.com/spreadsheets/d/1IVFe6YQjt-EqlOz0cQtIywSuMyhNGb6HUAyz4dpvw58/edit#gid=0 for details
      */
-    @Test()
-    public void testReqistrationShouldAcceptFilledForm()
+    @Test(dataProvider =  "drivers")
+    public void testReqistrationShouldAcceptFilledForm(WebDriverType type)
     {
-        Page page = Page.makePageWithDriver(WebDriverType.CHROME);
+        Page page = Page.makePageWithDriver(type);
         String email = Utils.makeUniqueEmail();
         String firstName  = "John";
         String lastName = "Doe";

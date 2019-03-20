@@ -31,7 +31,7 @@ public class Page {
     public static Page makePageWithDriver(WebDriverType type)
     {
         WebDriverFactory factory = new WebDriverFactory();
-        WebDriver driver = factory.create(WebDriverType.CHROME);
+        WebDriver driver = factory.create(type);
         return new Page(driver);
     }
 
@@ -130,7 +130,7 @@ public class Page {
      */
     public void waitForAjaxToFinish()
     {
-        mDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        mDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         WebDriverWait wait = new WebDriverWait(mDriver, 60);
         wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver driver) {
