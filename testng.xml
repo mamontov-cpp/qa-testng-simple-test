@@ -6,6 +6,7 @@
             <class name="RegistrationTest">
                 <methods>
                     <include name="testRegistrationFormShouldNotAcceptEmptyRequiredFields" />
+                    <include name="testReqistrationShouldAcceptFilledForm" />
                 </methods>
             </class>
         </classes>

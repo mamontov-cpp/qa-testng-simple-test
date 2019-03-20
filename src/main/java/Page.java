@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -66,6 +67,17 @@ public class Page {
     }
 
     /**
+     * Fills select form value with specified data
+     * @param selector a selector for a field
+     * @param visibleText a visible text for a page
+     */
+    public void fillSelectFormFieldWith(String selector, String visibleText)
+    {
+        Select select = new Select(mDriver.findElement(By.cssSelector(selector)));
+        select.selectByVisibleText(visibleText);
+    }
+
+    /**
      * Clicks on form field
      * @param selector a selector  for a field
      */
@@ -82,6 +94,16 @@ public class Page {
     public boolean isElementPresent(String selector)
     {
         return mDriver.findElements(By.cssSelector(selector)).size() > 0;
+    }
+
+    /**
+     * Returns field value by selector
+     * @param selector a selector
+     * @return string value
+     */
+    public String getFieldValue(String selector)
+    {
+        return mDriver.findElement(By.cssSelector(selector)).getAttribute("value");
     }
 
     /**
